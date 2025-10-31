@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useGeminiLive } from './hooks/useGeminiLive';
 import { SUPPORTED_LANGUAGES, getSystemInstruction, CONVERSATION_TOPICS } from './constants';
 import type { Language, Topic } from './types';
@@ -8,57 +8,20 @@ import { ConversationTask } from './tasks/conversation/ConversationTask';
 export default function App() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(SUPPORTED_LANGUAGES[0]);
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  // Fix: Add state and logic for API key selection.
-  const [apiKeySelected, setApiKeySelected] = useState(false);
 
   const systemInstruction = useMemo(() => getSystemInstruction(selectedLanguage.name, selectedTopic?.prompt), [selectedLanguage, selectedTopic]);
   const { status, transcript, error, startSession, stopSession } = useGeminiLive(systemInstruction);
 
   const isConversationActive = status === 'connecting' || status === 'listening' || status === 'error';
 
-  // Fix: Add effect to check for existing API key.
-  useEffect(() => {
-    const checkApiKey = async () => {
-      try {
-        if (window.aistudio) {
-          const hasKey = await window.aistudio.hasSelectedApiKey();
-          setApiKeySelected(hasKey);
-        }
-      } catch (e) {
-        console.error("Failed to check for API key", e);
-      }
-    };
-    checkApiKey();
-  }, []);
-
-  // Fix: Add effect to handle API key errors from Gemini.
-  useEffect(() => {
-    if (error && (error.includes('An API Key must be set') || error.includes('Requested entity was not found'))) {
-      setApiKeySelected(false);
-    }
-  }, [error]);
-
-  // Fix: Add handler for the API key selection button.
-  const handleSelectApiKey = async () => {
-    try {
-      if (window.aistudio) {
-        await window.aistudio.openSelectKey();
-        // Assume success to avoid race condition and allow user to proceed.
-        setApiKeySelected(true);
-      }
-    } catch (e) {
-        console.error("Failed to open API key selection", e);
-    }
-  };
-
   const handleStartConversation = () => {
-    // Fix: Ensure API key is selected before starting.
-    if (!selectedTopic || !apiKeySelected) return;
+    if (!selectedTopic) return;
     startSession();
   };
   
   const handleStopConversation = () => {
     stopSession();
+    // Do not reset the topic, so the user can restart the same scenario easily.
   };
 
   return (
@@ -77,9 +40,6 @@ export default function App() {
             topics={CONVERSATION_TOPICS}
             selectedTopic={selectedTopic}
             onTopicSelect={setSelectedTopic}
-            // Fix: Pass API key state and handler to selection task.
-            apiKeySelected={apiKeySelected}
-            onSelectApiKey={handleSelectApiKey}
           />
         ) : (
           <ConversationTask 

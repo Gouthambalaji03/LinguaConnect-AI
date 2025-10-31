@@ -113,8 +113,8 @@ export const useGeminiLive = (systemInstruction: string) => {
     cleanup();
 
     try {
-      // Fix: Use process.env.API_KEY as per the guidelines.
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+      const apiKey = process.env.API_KEY as string;
+      const ai = new GoogleGenAI({ apiKey });
       
       outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
       

@@ -15,16 +15,3 @@ export interface TranscriptEntry {
 }
 
 export type ConversationStatus = 'idle' | 'connecting' | 'listening' | 'error';
-
-// Fix: Add AIStudio interface to support API key selection.
-export interface AIStudio {
-  hasSelectedApiKey: () => Promise<boolean>;
-  openSelectKey: () => Promise<void>;
-}
-
-// Fix: Add global declaration for window.aistudio to resolve type errors.
-declare global {
-  interface Window {
-    aistudio?: AIStudio;
-  }
-}
