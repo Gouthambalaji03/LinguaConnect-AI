@@ -91,10 +91,14 @@ export const useGeminiLive = (systemInstruction: string) => {
     scriptProcessorRef.current?.disconnect();
     scriptProcessorRef.current = null;
     
-    inputAudioContextRef.current?.close();
+    if (inputAudioContextRef.current?.state !== 'closed') {
+      inputAudioContextRef.current?.close();
+    }
     inputAudioContextRef.current = null;
-
-    outputAudioContextRef.current?.close();
+    
+    if (outputAudioContextRef.current?.state !== 'closed') {
+      outputAudioContextRef.current?.close();
+    }
     outputAudioContextRef.current = null;
 
     audioSourcesRef.current.forEach(source => source.stop());
@@ -105,14 +109,14 @@ export const useGeminiLive = (systemInstruction: string) => {
   const stopSession = useCallback(() => {
     cleanup();
     setStatus('idle');
-    setTranscript([]);
-    setError(null);
+    // Keep transcript and error for review until next session starts
   }, [cleanup]);
 
   const startSession = useCallback(async () => {
     setStatus('connecting');
     setError(null);
     setTranscript([]);
+    cleanup(); // Clean up any previous session before starting a new one
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
@@ -160,8 +164,6 @@ export const useGeminiLive = (systemInstruction: string) => {
               const userInput = currentInputTranscriptionRef.current.trim();
               const aiResponse = currentOutputTranscriptionRef.current.trim();
               
-              // FIX: Refactored setTranscript to be more explicit for TypeScript's type inference.
-              // This avoids an issue where the 'speaker' property was being widened to 'string'.
               setTranscript(prev => {
                   const newEntries: TranscriptEntry[] = [];
                   if (userInput) {
@@ -204,7 +206,6 @@ export const useGeminiLive = (systemInstruction: string) => {
           },
           onclose: (e: CloseEvent) => {
             console.log('Session closed.');
-            cleanup();
           },
         },
       });
