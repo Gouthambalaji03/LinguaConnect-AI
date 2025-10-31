@@ -1,4 +1,3 @@
-
 import { useState, useRef, useCallback, useEffect } from 'react';
 // Fix: The 'LiveSession' type is not exported from '@google/genai'.
 // It has been removed from the import statement and a local interface is
@@ -119,6 +118,7 @@ export const useGeminiLive = (systemInstruction: string) => {
     cleanup(); // Clean up any previous session before starting a new one
 
     try {
+      // Fix: Use process.env.API_KEY as per the coding guidelines.
       // The API key is provided by the AI Studio environment via process.env
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
       

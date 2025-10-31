@@ -16,5 +16,14 @@ export interface TranscriptEntry {
 
 export type ConversationStatus = 'idle' | 'connecting' | 'listening' | 'error';
 
-// Fix: Moved AIStudio interface and window augmentation from App.tsx to avoid duplicate declarations.
-// The declaration is now in src/types.ts to act as a single source of truth and resolve type conflicts.
+// Fix: Moved AIStudio interface and window augmentation from src/App.tsx to avoid duplicate declarations.
+export interface AIStudio {
+  hasSelectedApiKey: () => Promise<boolean>;
+  openSelectKey: () => Promise<void>;
+}
+
+declare global {
+  interface Window {
+    aistudio?: AIStudio;
+  }
+}

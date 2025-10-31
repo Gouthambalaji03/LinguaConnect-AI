@@ -5,6 +5,9 @@ import type { Language, Topic } from './types';
 import { LanguageSelectionTask } from './tasks/language-selection/LanguageSelectionTask';
 import { ConversationTask } from './tasks/conversation/ConversationTask';
 
+// Fix: Removed local AIStudio interface and window augmentation.
+// These are now defined globally in src/types.ts to resolve type conflicts.
+
 export default function App() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(SUPPORTED_LANGUAGES[0]);
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
@@ -15,6 +18,7 @@ export default function App() {
 
   const isConversationActive = status === 'connecting' || status === 'listening' || status === 'error';
 
+  // Fix: Implement API key check and selection using window.aistudio as per guidelines.
   useEffect(() => {
     const checkApiKey = async () => {
       try {

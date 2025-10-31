@@ -12,49 +12,14 @@ LinguaConnect AI is a web application designed to help users practice their lang
 - **Modern & Responsive UI**: A clean and intuitive interface built with React and Tailwind CSS that works on any device.
 - **Microphone Integration**: Utilizes the browser's microphone for real-time audio input.
 
-## 🛠️ How It Works
-
-The application is built using a modern frontend stack and leverages the power of the Gemini Live API for its core functionality.
-
-- **Frontend**: The user interface is built with **React** and **TypeScript** for a robust and type-safe component-based architecture. **Tailwind CSS** is used for styling.
-- **AI & Audio Processing**: The `useGeminiLive` custom hook encapsulates all interaction with the **Gemini 2.5 Native Audio API**. It handles:
-  1. Establishing a secure, real-time connection.
-  2. Capturing microphone audio using the Web Audio API.
-  3. Encoding and streaming the audio to the Gemini API.
-  4. Receiving, decoding, and playing back the AI's audio response.
-  5. Processing live transcriptions for both the user and the AI.
-
 ## 🚀 Getting Started
 
-To run this project locally, you will need a modern web browser and a Gemini API key.
+This application is designed to run in an environment that provides the Google AI Studio SDK.
 
-### Prerequisites
-
-- A Google Gemini API key.
-- A local web server to serve the static files.
-
-### Setup Instructions
-
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository-url>
-    cd <repository-directory>
-    ```
-
-2.  **API Key Configuration:**
-    This application requires your Google Gemini API key to be available as an environment variable named `API_KEY` in the context where the application is served. The application is configured to access this key directly via `process.env.API_KEY`.
-
-3.  **Serve the application:**
-    Since this project is set up without a build step, you can serve the files using any simple static server.
-
-    For example, using Python's built-in server:
-    ```bash
-    python -m http.server
-    ```
-    Or, using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension in Visual Studio Code.
-
-4.  **Open in Browser:**
-    Navigate to the local server address (e.g., `http://localhost:8000`). The application will load, and you will be prompted to grant microphone permissions.
+1.  **Select an API Key**: When the application loads, you will be prompted to select a Google Gemini API key. This is required to connect to the service.
+2.  **Grant Permissions**: Your browser will ask for permission to use your microphone. Please allow this to enable the conversation feature.
+3.  **Select Language & Topic**: Choose the language you want to practice and a conversation starter topic.
+4.  **Start Practicing**: Click the "Start Practicing" button and begin your conversation with Alex!
 
 ## 📁 Project Structure
 
@@ -72,9 +37,8 @@ The codebase is organized into a modular, task-oriented structure for clarity an
 ├── App.tsx                 # Main application component and state management.
 ├── constants.ts            # App-wide constants (languages, topics).
 ├── types.ts                # TypeScript type definitions.
-├── index.html              # The main HTML entry point.
+├── index.html              # The main HTML entry point for the application.
 ├── index.tsx               # The main React entry point.
-├── metadata.json           # Application metadata and permissions.
 └── README.md               # You are here!
 ```
 
