@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Fix: Implement a proper API key prompt component.
 interface ApiKeyPromptProps {
     apiKeySelected: boolean;
     onSelectApiKey: () => void;
@@ -16,7 +17,6 @@ export const ApiKeyPrompt: React.FC<ApiKeyPromptProps> = ({ apiKeySelected, onSe
             <p className="text-sm text-yellow-400 mb-4">
                 Please select your Google Gemini API key to start the conversation.
             </p>
-            {/* Fix: Re-added the button to trigger the API key selection dialog. */}
             <button
                 onClick={onSelectApiKey}
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md font-semibold text-sm transition-colors"

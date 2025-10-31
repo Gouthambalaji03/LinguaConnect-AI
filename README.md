@@ -10,16 +10,39 @@ LinguaConnect AI is a web application designed to help users practice their lang
 - **Live Transcription**: View a real-time transcript of the conversation, showing both your speech and the AI's responses.
 - **Intelligent Tutoring**: The AI provides gentle, in-context corrections and asks open-ended questions to keep the conversation flowing.
 - **Modern & Responsive UI**: A clean and intuitive interface built with React and Tailwind CSS that works on any device.
-- **Microphone Integration**: Utilizes the browser's microphone for real-time audio input.
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Local Development)
 
-This application is designed to run in an environment that provides the Google AI Studio SDK.
+1.  **Clone the repository**: `git clone https://github.com/your-username/linguaconnect-ai.git`
+2.  **Install dependencies**: `npm install`
+3.  **Create a `.env.local` file** in the root of the project.
+4.  **Add your API key** to the file: `VITE_GEMINI_API_KEY=your_api_key_here`
+5.  **Run the development server**: `npm run dev`
+6.  **Grant Permissions**: Your browser will ask for permission to use your microphone. Please allow this to enable the conversation feature.
 
-1.  **Select an API Key**: When the application loads, you will be prompted to select a Google Gemini API key. This is required to connect to the service.
-2.  **Grant Permissions**: Your browser will ask for permission to use your microphone. Please allow this to enable the conversation feature.
-3.  **Select Language & Topic**: Choose the language you want to practice and a conversation starter topic.
-4.  **Start Practicing**: Click the "Start Practicing" button and begin your conversation with Alex!
+## 🚀 Deployment to Vercel
+
+Follow these steps to deploy your application to Vercel.
+
+### 1. Push to GitHub
+Push your project to a GitHub repository.
+
+### 2. Import Project on Vercel
+- Go to your Vercel Dashboard.
+- Click "Add New..." -> "Project".
+- Import the GitHub repository you just created. Vercel will automatically detect that it's a Vite project.
+
+### 3. Configure Environment Variable
+This is the most important step to fix the deployment error.
+- In your new Vercel project's settings, navigate to the **Environment Variables** section.
+- Add a new variable with the following details:
+    - **Name**: `VITE_GEMINI_API_KEY`
+    - **Value**: Paste your Google Gemini API key here.
+- Click "Save".
+
+### 4. Deploy
+- Trigger a new deployment from the Vercel dashboard.
+- Vercel will now build your project with the API key you provided. Your app should deploy successfully!
 
 ## 📁 Project Structure
 
@@ -27,21 +50,17 @@ The codebase is organized into a modular, task-oriented structure for clarity an
 
 ```
 /
-├── components/
-│   └── icons.tsx           # Reusable SVG icon components.
-├── hooks/
-│   └── useGeminiLive.ts    # Custom hook for all Gemini Live API logic.
-├── tasks/
-│   ├── conversation/       # Components for the active conversation view.
-│   └── language-selection/ # Components for the initial setup screen.
-├── App.tsx                 # Main application component and state management.
-├── constants.ts            # App-wide constants (languages, topics).
-├── types.ts                # TypeScript type definitions.
-├── index.html              # The main HTML entry point for the application.
-├── index.tsx               # The main React entry point.
+├── src/
+│   ├── components/         # Reusable UI components (e.g., icons).
+│   ├── hooks/              # Custom React hooks (e.g., useGeminiLive).
+│   ├── tasks/              # Task-oriented component modules.
+│   ├── App.tsx             # Main application component.
+│   ├── constants.ts        # App-wide constants.
+│   ├── types.ts            # TypeScript definitions.
+│   ├── index.css           # Tailwind CSS entry point.
+│   └── index.tsx           # Main React entry point.
+├── index.html              # Vite entry point.
+├── package.json            # Project dependencies and scripts.
+├── vite.config.ts          # Vite build configuration.
 └── README.md               # You are here!
 ```
-
-## 🤝 Contributing
-
-Contributions are welcome! If you have suggestions for improvements or find a bug, please feel free to open an issue or submit a pull request.

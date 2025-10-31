@@ -1,8 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-// Fix: The 'LiveSession' type is not exported from '@google/genai'.
-// It has been removed from the import statement and a local interface is
-// defined here based on its usage within the hook to fix the type error
-// and maintain type safety.
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from '@google/genai';
 import type { ConversationStatus, TranscriptEntry } from '../types';
 
@@ -108,18 +104,16 @@ export const useGeminiLive = (systemInstruction: string) => {
   const stopSession = useCallback(() => {
     cleanup();
     setStatus('idle');
-    // Keep transcript and error for review until next session starts
   }, [cleanup]);
 
   const startSession = useCallback(async () => {
     setStatus('connecting');
     setError(null);
     setTranscript([]);
-    cleanup(); // Clean up any previous session before starting a new one
+    cleanup();
 
     try {
-      // Fix: Use process.env.API_KEY as per the coding guidelines.
-      // The API key is provided by the AI Studio environment via process.env
+      // Fix: Use process.env.API_KEY as per the guidelines.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
       
       outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });

@@ -5,12 +5,10 @@ import type { Language, Topic } from './types';
 import { LanguageSelectionTask } from './tasks/language-selection/LanguageSelectionTask';
 import { ConversationTask } from './tasks/conversation/ConversationTask';
 
-// Fix: Removed local AIStudio interface and window augmentation.
-// These are now defined globally in src/types.ts to resolve type conflicts.
-
 export default function App() {
   const [selectedLanguage, setSelectedLanguage] = useState<Language>(SUPPORTED_LANGUAGES[0]);
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  // Fix: Add state and logic for API key selection.
   const [apiKeySelected, setApiKeySelected] = useState(false);
 
   const systemInstruction = useMemo(() => getSystemInstruction(selectedLanguage.name, selectedTopic?.prompt), [selectedLanguage, selectedTopic]);
@@ -18,7 +16,7 @@ export default function App() {
 
   const isConversationActive = status === 'connecting' || status === 'listening' || status === 'error';
 
-  // Fix: Implement API key check and selection using window.aistudio as per guidelines.
+  // Fix: Add effect to check for existing API key.
   useEffect(() => {
     const checkApiKey = async () => {
       try {
@@ -33,12 +31,14 @@ export default function App() {
     checkApiKey();
   }, []);
 
+  // Fix: Add effect to handle API key errors from Gemini.
   useEffect(() => {
     if (error && (error.includes('An API Key must be set') || error.includes('Requested entity was not found'))) {
       setApiKeySelected(false);
     }
   }, [error]);
 
+  // Fix: Add handler for the API key selection button.
   const handleSelectApiKey = async () => {
     try {
       if (window.aistudio) {
@@ -52,13 +52,13 @@ export default function App() {
   };
 
   const handleStartConversation = () => {
+    // Fix: Ensure API key is selected before starting.
     if (!selectedTopic || !apiKeySelected) return;
     startSession();
   };
   
   const handleStopConversation = () => {
     stopSession();
-    // Do not reset the topic, so the user can restart the same scenario easily.
   };
 
   return (
@@ -77,6 +77,7 @@ export default function App() {
             topics={CONVERSATION_TOPICS}
             selectedTopic={selectedTopic}
             onTopicSelect={setSelectedTopic}
+            // Fix: Pass API key state and handler to selection task.
             apiKeySelected={apiKeySelected}
             onSelectApiKey={handleSelectApiKey}
           />

@@ -16,12 +16,13 @@ export interface TranscriptEntry {
 
 export type ConversationStatus = 'idle' | 'connecting' | 'listening' | 'error';
 
-// Fix: Moved AIStudio interface and window augmentation from src/App.tsx to avoid duplicate declarations.
+// Fix: Add AIStudio interface to support API key selection.
 export interface AIStudio {
   hasSelectedApiKey: () => Promise<boolean>;
   openSelectKey: () => Promise<void>;
 }
 
+// Fix: Add global declaration for window.aistudio to resolve type errors.
 declare global {
   interface Window {
     aistudio?: AIStudio;

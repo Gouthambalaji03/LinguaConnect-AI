@@ -2,6 +2,7 @@ import React from 'react';
 import type { Language, Topic } from '../../types';
 import { LanguageSelector } from './LanguageSelector';
 import { TopicSelector } from './TopicSelector';
+// Fix: Import the ApiKeyPrompt component.
 import { ApiKeyPrompt } from './ApiKeyPrompt';
 import { MicrophoneIcon } from '../../components/icons';
 
@@ -12,6 +13,7 @@ interface LanguageSelectionTaskProps {
     topics: Topic[];
     selectedTopic: Topic | null;
     onTopicSelect: (topic: Topic) => void;
+    // Fix: Add props for API key handling.
     apiKeySelected: boolean;
     onSelectApiKey: () => void;
 }
@@ -23,13 +25,16 @@ export const LanguageSelectionTask: React.FC<LanguageSelectionTaskProps> = ({
     topics,
     selectedTopic,
     onTopicSelect,
+    // Fix: Destructure API key props.
     apiKeySelected,
     onSelectApiKey,
 }) => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center p-6 space-y-6 overflow-y-auto">
+      {/* Fix: Display the API key prompt. */}
       <ApiKeyPrompt apiKeySelected={apiKeySelected} onSelectApiKey={onSelectApiKey} />
       
+      {/* Fix: Disable controls until API key is selected. */}
       <fieldset disabled={!apiKeySelected} className="w-full max-w-md space-y-6 contents">
         <div className="w-full max-w-md space-y-2">
             <h2 className="text-lg font-semibold text-center text-gray-300">1. Select a language to practice</h2>
