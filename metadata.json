@@ -1,0 +1,7 @@
+{
+  "name": "Copy of LinguaConnect AI",
+  "description": "Practice your language skills with a real-time AI conversation partner powered by Gemini. Select a language and start talking!",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
