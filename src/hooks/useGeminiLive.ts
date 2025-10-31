@@ -114,6 +114,9 @@ export const useGeminiLive = (systemInstruction: string) => {
 
     try {
       const apiKey = process.env.API_KEY as string;
+      if (!apiKey) {
+        throw new Error("API_KEY is not set. Please add it to your .env file or configure it in your deployment environment.");
+      }
       const ai = new GoogleGenAI({ apiKey });
       
       outputAudioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });

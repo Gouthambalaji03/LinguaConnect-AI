@@ -21,7 +21,6 @@ export default function App() {
   
   const handleStopConversation = () => {
     stopSession();
-    // Do not reset the topic, so the user can restart the same scenario easily.
   };
 
   return (
